@@ -1,7 +1,7 @@
 const path = require('path')
 const express = require('express');
 const expressLayout = require('express-ejs-layouts');
-const { port, connectDatabase } = require('./config');
+const { appConfig, connectDatabase } = require('./config');
 const initRoutes = require('./routes/index.route');
 const error = require('./middleware/error.handler');
 
@@ -27,8 +27,8 @@ app.use(error.handler);
 // Connect To database and start listening to server.
 connectDatabase()
     .then(() => {
-       console.log("Database Connected.");
-       app.listen(8000, () => console.log('Server is up and running at 8000'))
+       const { port } = appConfig;
+       app.listen(appConfig.port, () => console.log(`Server is up and running at ${port}`));
     })
     .catch((err) => {
         console.log(err.message);
